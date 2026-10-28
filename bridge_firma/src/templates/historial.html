@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Firmas</title>
+    <style>
+        body { font-family: sans-serif; background: #f8f9fa; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h2 { color: #1f2937; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        th { color: #6c757d; }
+        tr:hover { background: #e9ecef; }
+        .empty { text-align: center; color: #6c757d; padding: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Historial de Firmas</h2>
+        {% if items|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Doc</th>
+                    <th>Usuario</th>
+                    <th>Empresa</th>
+                    <th>Fecha</th>
+                    <th>Firma</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.num_doc }}</td>
+                    <td>{{ item.usuario_id or 'N/A' }}</td>
+                    <td>{{ item.empresa_codigo or 'N/A' }}</td>
+                    <td>{{ item.fecha_firma }}</td>
+                    <td><small>Hash: {{ item.firma_hash | truncate(16, end='both') }}</small></td>
+                    <td>{{ item.observaciones or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">No hay firmas en el historial</div>
+        {% endif %}
+    </div>
+</body>
+</html>

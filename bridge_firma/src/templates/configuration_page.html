@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #1e40af; }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Configuración de Empresa</h2>
+        <div class="form-group">
+            <label>Código de Empresa:</label>
+            <input type="text" id="empresaCodigo" placeholder="Ej: EC">
+        </div>
+        <div class="form-group">
+            <label>Descripción:</label>
+            <input type="text" id="empresaDescripcion" placeholder="Nombre de la empresa">
+        </div>
+        <button onclick="guardarConfig()">Guardar Configuración</button>
+    </div>
+
+    <script>
+        function guardarConfig() {
+            const codigo = document.getElementById('empresaCodigo').value;
+            const descripcion = document.getElementById('empresaDescripcion').value;
+            if (!codigo) {
+                alert('Ingrese un código de empresa');
+                return;
+            }
+            fetch('/api/empresa', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo, descripcion })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Configuración guardada correctamente');
+                } else {
+                    alert('Error: ' + (data.message || 'Unknown error'));
+                }
+            });
+        }
+    </script>
+</body>
+</html>

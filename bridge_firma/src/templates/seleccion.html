@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos Pendientes</title>
+    <style>
+        body { font-family: sans-serif; background: #e5e7eb; padding: 20px; display: flex; justify-content: center; }
+        .list-container { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 600px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #1f2937; text-align: center; }
+        .doc-item { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; border-bottom: 1px solid #eee; 
+        }
+        .btn-firmar { 
+            background: #2563eb; color: white; text-decoration: none; 
+            padding: 10px 20px; border-radius: 6px; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="list-container">
+        <h2>Documentos Pendientes ({{ documentos|length }})</h2>
+        <p>Seleccione el documento que desea firmar ahora:</p>
+        {% for doc in documentos %}
+        <div class="doc-item">
+            <span><strong>Doc: {{ doc.num_doc }}</strong></span>
+            <a href="/firmar/{{ doc.id }}" class="btn-firmar">Firmar ahora</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

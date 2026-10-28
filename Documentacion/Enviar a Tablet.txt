@@ -1,0 +1,28 @@
+Aquí tienes el código lógico que deberías añadir al evento del botón "Enviar a Tablet" en tu ERP:
+
+
+' Necesitarás tener una referencia a Microsoft ActiveX Data Objects (ADO) para la BD
+Dim conn As New ADODB.Connection
+Dim sql As String
+Dim rutaDestino As String
+Dim nombreArchivo As String
+
+' 1. Definir rutas (Ajusta a tu servidor)
+nombreArchivo = "Doc_" & txtNumDoc.Text & ".pdf"
+rutaDestino = "C:\BRIDGE-FIRMA\src\documentos\" & nombreArchivo
+
+' 2. Lógica para generar el PDF
+' Aquí debes llamar a tu rutina de impresión actual, pero dirigida a la carpeta /documentos
+' Si usas un componente de PDF, sería algo como:
+' ObjetoPDF.SaveTo rutaDestino 
+
+' 3. Registrar en la tabla de Access para que el Bridge lo detecte
+conn.Open "Driver={Microsoft Access Driver (*.mdb)};Dbq=C:\Ruta\TuBase.mdb;"
+
+sql = "INSERT INTO App_Firmas_Pendientes (Num_Doc, Ruta_PDF, Estado, Fecha_Creacion) " & _
+      "VALUES ('" & txtNumDoc.Text & "', '" & rutaDestino & "', 'PENDIENTE', '" & Now & "')"
+
+conn.Execute sql
+conn.Close
+
+MsgBox "Documento enviado a la tablet correctamente.", vbInformation
